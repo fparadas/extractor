@@ -14,6 +14,7 @@ defmodule Schema.Example.ClassificationExample do
   """
 
   alias Schema.Example.ClassificationExample
+  alias Schema.Document
 
   @type t :: %ClassificationExample{
           text: String.t(),
@@ -71,5 +72,55 @@ defmodule Schema.Example.ClassificationExample do
   def add_label(%ClassificationExample{label: old} = example, label)
       when is_list(old) and is_list(label) do
     %{example | label: old ++ label}
+  end
+
+  @doc """
+  Converts a `Document` struct to a `ClassificationExample` struct.
+
+  ## Parameters
+
+  - `document`: The `Document` struct to be converted.
+
+  ## Returns
+
+  A new `ClassificationExample` struct with the `text` and `label` fields populated from the `Document`.
+
+  ## Examples
+
+      iex> document = %Document{text: "Sample text", labels: ["label1", "label2"]}
+      iex> Schema.ClassificationExample.from_document(document)
+      %ClassificationExample{text: "Sample text", label: ["label1", "label2"]}
+  """
+  @spec from_document(Document.t()) :: t
+  def from_document(%Document{text: text, labels: labels}) do
+    %ClassificationExample{text: text, label: labels}
+  end
+
+  @doc """
+  Converts a `Document` struct to a `ClassificationExample` struct with a binary label evaluation.
+
+  ## Parameters
+
+  - `document`: The `Document` struct to be converted.
+  - `criteria`: A tuple `{:binary, label}` used to evaluate the label. If `label` is in `Document`'s labels, the `ClassificationExample`'s label is 'positive', else 'negative'.
+
+  ## Returns
+
+  A new `ClassificationExample` struct with the `text` field from `Document` and a binary 'positive' or 'negative' label based on the criteria.
+
+  ## Examples
+
+      iex> document = %Document{text: "Sample text", labels: ["label1", "label2"]}
+      iex> Schema.ClassificationExample.from_document_with_binary_label(document, "label1")
+      %ClassificationExample{text: "Sample text", label: "positive"}
+  """
+  @spec from_document_with_binary_label(Document.t(), String.t()) :: t
+  def from_document_with_binary_label(%Document{text: text, labels: labels}, label) do
+    binary_label = evaluate_binary_label(labels, label)
+    %ClassificationExample{text: text, label: binary_label}
+  end
+
+  defp evaluate_binary_label(labels, label) do
+    if label in labels, do: "positive", else: "negative"
   end
 end
