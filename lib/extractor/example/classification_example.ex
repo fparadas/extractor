@@ -1,4 +1,4 @@
-defmodule Schema.Example.ClassificationExample do
+defmodule Extractor.Example.ClassificationExample do
   @moduledoc """
   A module for managing classification examples, particularly for text and its associated labels.
 
@@ -13,8 +13,8 @@ defmodule Schema.Example.ClassificationExample do
     - `label`: The label(s) associated with the text. This can be a single label (String) or multiple labels (list of Strings).
   """
 
-  alias Schema.Example.ClassificationExample
-  alias Schema.Document
+  alias Extractor.Example.ClassificationExample
+  alias Extractor.Schema.Document
 
   @type t :: %ClassificationExample{
           text: String.t(),
@@ -37,9 +37,9 @@ defmodule Schema.Example.ClassificationExample do
 
   ## Examples
 
-      iex> example = %Schema.Example.ClassificationExample{}
-      iex> Schema.Example.ClassificationExample.add_text(example, "Example text")
-      %Schema.Example.ClassificationExample{text: "Example text", label: nil}
+      iex> example = %Extractor.Example.ClassificationExample{}
+      iex> Extractor.Example.ClassificationExample.add_text(example, "Example text")
+      %Extractor.Example.ClassificationExample{text: "Example text", label: nil}
   """
   @spec add_text(t, String.t()) :: t
   def add_text(%ClassificationExample{} = example, text), do: %{example | text: text}
@@ -88,7 +88,7 @@ defmodule Schema.Example.ClassificationExample do
   ## Examples
 
       iex> document = %Document{text: "Sample text", labels: ["label1", "label2"]}
-      iex> Schema.ClassificationExample.from_document(document)
+      iex> Extractor.Example.ClassificationExample.from_document(document)
       %ClassificationExample{text: "Sample text", label: ["label1", "label2"]}
   """
   @spec from_document(Document.t()) :: t
@@ -111,7 +111,7 @@ defmodule Schema.Example.ClassificationExample do
   ## Examples
 
       iex> document = %Document{text: "Sample text", labels: ["label1", "label2"]}
-      iex> Schema.ClassificationExample.from_document_with_binary_label(document, "label1")
+      iex> Extractor.Example.ClassificationExample.from_document_with_binary_label(document, "label1")
       %ClassificationExample{text: "Sample text", label: "positive"}
   """
   @spec from_document_with_binary_label(Document.t(), String.t()) :: t

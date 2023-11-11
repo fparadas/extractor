@@ -1,8 +1,9 @@
-defmodule Schema.Example.ClassificationExampleTest do
+defmodule Extractor.Example.ClassificationExampleTest do
   use ExUnit.Case
-  alias Schema.Example.ClassificationExample
+  alias Extractor.Example.ClassificationExample
+  alias Extractor.Schema.Document
 
-  doctest Schema.Example.ClassificationExample
+  doctest Extractor.Example.ClassificationExample
 
   describe "add_label/2" do
     test "adds a single label to an empty ClassificationExample" do

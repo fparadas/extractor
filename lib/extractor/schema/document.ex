@@ -1,4 +1,4 @@
-defmodule Schema.Document do
+defmodule Extractor.Schema.Document do
   @moduledoc """
   Defines the `Document` structure and provides functions for constructing and manipulating documents.
 
@@ -25,7 +25,7 @@ defmodule Schema.Document do
   returns a new instance of the structure with the applied modifications.
   """
 
-  alias Schema.Document
+  alias Extractor.Schema.Document
 
   @type t :: %Document{
           id: String.t(),
@@ -51,9 +51,9 @@ defmodule Schema.Document do
 
   ## Examples
 
-    iex> document = %Schema.Document{}
-    iex> Schema.Document.add_id(document, "123")
-    %Schema.Document{id: "123", text: "", labels: [], generations: [], metadata: %{}}
+    iex> document = %Extractor.Schema.Document{}
+    iex> Extractor.Schema.Document.add_id(document, "123")
+    %Extractor.Schema.Document{id: "123", text: "", labels: [], generations: [], metadata: %{}}
 
   """
   @spec add_id(t, String.t()) :: t
@@ -73,9 +73,9 @@ defmodule Schema.Document do
 
   ## Examples
 
-    iex> document = %Schema.Document{id: "123"}
-    iex> Schema.Document.add_text(document, "Sample text")
-    %Schema.Document{id: "123", text: "Sample text", labels: [], generations: [], metadata: %{}}
+    iex> document = %Extractor.Schema.Document{id: "123"}
+    iex> Extractor.Schema.Document.add_text(document, "Sample text")
+    %Extractor.Schema.Document{id: "123", text: "Sample text", labels: [], generations: [], metadata: %{}}
 
   """
   @spec add_text(t, String.t()) :: t
@@ -95,11 +95,11 @@ defmodule Schema.Document do
 
   ## Examples
 
-    iex> document = %Schema.Document{id: "123", text: "Sample text"}
-    iex> updated_document = Schema.Document.add_labels(document, ["label1", "label2"])
-    %Schema.Document{id: "123", text: "Sample text", labels: ["label1", "label2"], generations: [], metadata: %{}}
-    iex> Schema.Document.add_labels(updated_document, ["label3"])
-    %Schema.Document{id: "123", text: "Sample text", labels: ["label1", "label2", "label3"], generations: [], metadata: %{}}
+    iex> document = %Extractor.Schema.Document{id: "123", text: "Sample text"}
+    iex> updated_document = Extractor.Schema.Document.add_labels(document, ["label1", "label2"])
+    %Extractor.Schema.Document{id: "123", text: "Sample text", labels: ["label1", "label2"], generations: [], metadata: %{}}
+    iex> Extractor.Schema.Document.add_labels(updated_document, ["label3"])
+    %Extractor.Schema.Document{id: "123", text: "Sample text", labels: ["label1", "label2", "label3"], generations: [], metadata: %{}}
 
   """
   @spec add_labels(t, list(String.t())) :: t
@@ -121,11 +121,11 @@ defmodule Schema.Document do
 
   ## Examples
 
-    iex> document = %Schema.Document{id: "123", text: "Sample text", labels: ["label1"]}
-    iex> updated_document = Schema.Document.add_generations(document, ["gen1", "gen2"])
-    %Schema.Document{id: "123", text: "Sample text", labels: ["label1"], generations: ["gen1", "gen2"], metadata: %{}}
-    iex> Schema.Document.add_generations(updated_document, ["gen3"])
-    %Schema.Document{id: "123", text: "Sample text", labels: ["label1"], generations: ["gen1", "gen2", "gen3"], metadata: %{}}
+    iex> document = %Extractor.Schema.Document{id: "123", text: "Sample text", labels: ["label1"]}
+    iex> updated_document = Extractor.Schema.Document.add_generations(document, ["gen1", "gen2"])
+    %Extractor.Schema.Document{id: "123", text: "Sample text", labels: ["label1"], generations: ["gen1", "gen2"], metadata: %{}}
+    iex> Extractor.Schema.Document.add_generations(updated_document, ["gen3"])
+    %Extractor.Schema.Document{id: "123", text: "Sample text", labels: ["label1"], generations: ["gen1", "gen2", "gen3"], metadata: %{}}
 
   """
   @spec add_generations(t, list(String.t())) :: t
@@ -147,9 +147,9 @@ defmodule Schema.Document do
 
   ## Examples
 
-    iex> document = %Schema.Document{id: "123", text: "Sample text"}
-    iex> Schema.Document.add_metadata(document, %{model: "human"})
-    %Schema.Document{id: "123", text: "Sample text", labels: [], generations: [], metadata:  %{model: "human"}}
+    iex> document = %Extractor.Schema.Document{id: "123", text: "Sample text"}
+    iex> Extractor.Schema.Document.add_metadata(document, %{model: "human"})
+    %Extractor.Schema.Document{id: "123", text: "Sample text", labels: [], generations: [], metadata:  %{model: "human"}}
 
   """
   @spec add_metadata(t, map()) :: t

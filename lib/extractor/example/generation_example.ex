@@ -1,4 +1,4 @@
-defmodule Schema.Example.GenerationExample do
+defmodule Extractor.Example.GenerationExample do
   @moduledoc """
   A module for managing generation examples, specifically for handling text prompts and their completions.
 
@@ -13,7 +13,7 @@ defmodule Schema.Example.GenerationExample do
     - `completion`: The text completion associated with the prompt (String).
   """
 
-  alias Schema.Example.GenerationExample
+  alias Extractor.Example.GenerationExample
 
   @type t :: %GenerationExample{
           prompt: String.t(),
@@ -36,9 +36,9 @@ defmodule Schema.Example.GenerationExample do
 
   ## Examples
 
-      iex> example = %Schema.Example.GenerationExample{}
-      iex> Schema.Example.GenerationExample.add_prompt(example, "What is Elixir?")
-      %Schema.Example.GenerationExample{prompt: "What is Elixir?", completion: nil}
+      iex> example = %Extractor.Example.GenerationExample{}
+      iex> Extractor.Example.GenerationExample.add_prompt(example, "What is Elixir?")
+      %Extractor.Example.GenerationExample{prompt: "What is Elixir?", completion: nil}
   """
   @spec add_prompt(t, String.t()) :: t
   def add_prompt(%GenerationExample{} = example, prompt), do: %{example | prompt: prompt}
@@ -57,9 +57,9 @@ defmodule Schema.Example.GenerationExample do
 
   ## Examples
 
-      iex> example = %Schema.Example.GenerationExample{prompt: "What is Elixir?"}
-      iex> Schema.Example.GenerationExample.add_completion(example, "Elixir is a functional programming language.")
-      %Schema.Example.GenerationExample{prompt: "What is Elixir?", completion: "Elixir is a functional programming language."}
+      iex> example = %Extractor.Example.GenerationExample{prompt: "What is Elixir?"}
+      iex> Extractor.Example.GenerationExample.add_completion(example, "Elixir is a functional programming language.")
+      %Extractor.Example.GenerationExample{prompt: "What is Elixir?", completion: "Elixir is a functional programming language."}
   """
   @spec add_completion(t, String.t()) :: t
   def add_completion(%GenerationExample{} = example, completion) do
