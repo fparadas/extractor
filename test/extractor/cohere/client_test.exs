@@ -25,64 +25,31 @@ defmodule Extractor.Cohere.ClientTest do
     end
   end
 
-  describe "generate/6" do
+  describe "post/4" do
     setup do
       Application.put_env(:extractor, :cohere_api_key, "test_api_key")
 
       client = Client.new()
-      Mox.defmock(HTTPoisonMock, for: Extractor.Http.Adapter)
       {:ok, client: client}
     end
 
-    test "successfully makes a generate request and returns generated text", %{client: client} do
-      HTTPoisonMock
-      |> expect(:post, fn _, _, _ ->
-        {:ok,
-         %HTTPoison.Response{status_code: 200, body: "{\"generated_text\": \"Generated text\"}"}}
-      end)
-
-      assert {:ok, "Generated text"} =
-               Client.generate(client, "model-name", "Hello", 50, 1.0, HTTPoisonMock)
-    end
-
-    test "returns an error when the generate request fails", %{client: client} do
-      HTTPoisonMock
-      |> expect(:post, fn _, _, _ -> {:error, %HTTPoison.Error{reason: :error_reason}} end)
-
-      assert {:error, _reason} =
-               Client.generate(client, "model-name", "Hello", 50, 1.0, HTTPoisonMock)
-    end
-  end
-
-  describe "classify/6" do
-    setup do
-      Application.put_env(:extractor, :cohere_api_key, "test_api_key")
-
-      client = Client.new()
-      Mox.defmock(HTTPoisonMock, for: Extractor.Http.Adapter)
-      {:ok, client: client}
-    end
-
-    test "successfully makes a classify request and returns results", %{client: client} do
-      response_body = "{\"classifications\": [{\"input\": \"Text\", \"prediction\": \"Label\"}]}"
+    test "successfully makes a POST request and returns response body", %{client: client} do
+      response_body = "{\"result\": \"success\"}"
 
       HTTPoisonMock
       |> expect(:post, fn _, _, _ ->
         {:ok, %HTTPoison.Response{status_code: 200, body: response_body}}
       end)
 
-      assert {:ok, classifications} =
-               Client.classify(client, "model-name", ["Text"], [], HTTPoisonMock)
-
-      assert classifications == [%{"input" => "Text", "prediction" => "Label"}]
+      assert {:ok, response} = Client.post(client, "/test-endpoint", "{}", HTTPoisonMock)
+      assert response == response_body
     end
 
-    test "returns an error when the classify request fails", %{client: client} do
+    test "returns an error when the request fails", %{client: client} do
       HTTPoisonMock
       |> expect(:post, fn _, _, _ -> {:error, %HTTPoison.Error{reason: :error_reason}} end)
 
-      assert {:error, _reason} =
-               Client.classify(client, "model-name", ["Text"], [], HTTPoisonMock)
+      assert {:error, _reason} = Client.post(client, "/test-endpoint", "{}", HTTPoisonMock)
     end
   end
 end
